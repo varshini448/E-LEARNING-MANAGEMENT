@@ -70,22 +70,80 @@ function logout() {
 }
 
 // ================= COURSES =================
+// ================= DASHBOARD =================
+function loadDashboard() {
+    const user = sessionStorage.getItem("currentUser");
+    document.getElementById("user-name").innerText = user;
+
+    loadCourses();
+    loadEnrolledCourses();
+}
+
+// COURSE LIST
+const courses = [
+    { title: "Java Programming", id: "CS101", desc: "Learn Java basics" },
+    { title: "Web Development", id: "WD202", desc: "HTML, CSS, JS" },
+    { title: "Data Structures", id: "DS303", desc: "Stacks, Queues, Trees" }
+];
+
+// LOAD ALL COURSES
 function loadCourses() {
-    const courses = [
-        { title: "Java Programming", id: "CS101", desc: "Learn Java basics" },
-        { title: "Web Development", id: "WD202", desc: "HTML, CSS, JS" }
-    ];
+    let enrolled = JSON.parse(localStorage.getItem("enrolled")) || [];
 
     const container = document.getElementById("course-container");
     container.innerHTML = "";
 
     courses.forEach(c => {
+        let isEnrolled = enrolled.includes(c.id);
+
         container.innerHTML += `
         <div class="course-card">
             <h3>${c.title}</h3>
-            <p>Code: ${c.id}</p>
             <p>${c.desc}</p>
-            <button onclick="alert('Entered')">Enter</button>
+            <button onclick="enrollCourse('${c.id}')">
+                ${isEnrolled ? "Enrolled" : "Enroll"}
+            </button>
+        </div>`;
+    });
+}
+
+// ENROLL FUNCTION
+function enrollCourse(courseId) {
+    let enrolled = JSON.parse(localStorage.getItem("enrolled")) || [];
+
+    if (!enrolled.includes(courseId)) {
+        enrolled.push(courseId);
+        localStorage.setItem("enrolled", JSON.stringify(enrolled));
+        alert("Enrolled Successfully!");
+    } else {
+        alert("Already Enrolled");
+    }
+
+    loadCourses();
+    loadEnrolledCourses();
+}
+
+// SHOW ENROLLED COURSES
+function loadEnrolledCourses() {
+    let enrolled = JSON.parse(localStorage.getItem("enrolled")) || [];
+
+    const container = document.getElementById("enrolled-container");
+    container.innerHTML = "";
+
+    if (enrolled.length === 0) {
+        container.innerHTML = "<p>No courses enrolled</p>";
+        return;
+    }
+
+    enrolled.forEach(id => {
+        let course = courses.find(c => c.id === id);
+
+        let progress = Math.floor(Math.random() * 100);
+
+        container.innerHTML += `
+        <div class="course-card">
+            <h3>${course.title}</h3>
+            <p>Progress: ${progress}%</p>
         </div>`;
     });
 }
