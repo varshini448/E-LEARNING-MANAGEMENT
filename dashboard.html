@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Student Dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dashboard-body">
-    
-    <h2>Welcome to your Dashboard</h2>
-    <button onclick="logout()" style="width: 100px; background: #dc3545;">Logout</button>
+<body onload="checkAuth(); loadCourses();">
 
-    <div class="course-grid" id="course-container">
-        </div>
+<h2>Dashboard</h2>
 
-    <script src="script.js"></script>
-    <script>
-        // Load courses as soon as the dashboard opens
-        window.onload = loadCourses;
-    </script>
+<button onclick="logout()">Logout</button>
+
+<div id="course-container"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
