@@ -7,28 +7,32 @@
 
 <body onload="checkAuth(); loadDashboard();">
 
-<!-- TOP BAR -->
-<div class="navbar">
-    <h2>LMS Dashboard</h2>
-    <div>
-        <span>Welcome, <b id="user-name"></b></span>
-        <button onclick="logout()">Logout</button>
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>LMS</h2>
+        <p>Dashboard</p>
+        <p>Courses</p>
+        <p>Profile</p>
     </div>
-</div>
 
-<!-- MAIN CONTENT -->
-<div class="main">
+    <!-- MAIN AREA -->
+    <div class="main">
 
-    <!-- COURSES -->
-    <div class="section">
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <span>Welcome, <b id="user-name"></b></span>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <!-- COURSES -->
         <h3>All Courses</h3>
         <div id="course-container" class="grid"></div>
-    </div>
 
-    <!-- ENROLLED -->
-    <div class="section">
         <h3>Your Courses</h3>
         <div id="enrolled-container" class="grid"></div>
+
     </div>
 
 </div>
