@@ -74,25 +74,20 @@ function loadCourses() {
     ];
 
     let container = document.getElementById("course-container");
+
+    if (!container) {
+        console.error("course-container not found ❌");
+        return;
+    }
+
     container.innerHTML = "";
 
     courses.forEach(course => {
-        let progress = localStorage.getItem("progress_" + course.id) || 0;
-
         container.innerHTML += `
-        <div class="course-card">
+        <div style="border:1px solid #ccc; padding:15px; margin:10px;">
             <h3>${course.title}</h3>
-            <p class="course-id">${course.id}</p>
             <p>${course.desc}</p>
-
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width:${progress}%"></div>
-                </div>
-                <span>${progress}%</span>
-            </div>
-
-            <button onclick="updateProgress('${course.id}')">+ Progress</button>
+            <button onclick="alert('Enrolled!')">Enroll</button>
         </div>
         `;
     });
