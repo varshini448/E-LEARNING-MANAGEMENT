@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>LMS Login</title>
+    <title>Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <div class="card">
-        <h2>E-Learning Login</h2>
-        <p id="error-msg" class="error" style="display: none; color: red;">Invalid username or password</p>
-        
-        <input type="text" id="username" placeholder="Username (Try: student1)">
-        <input type="password" id="password" placeholder="Password (Try: password123)">
-        
-        <button onclick="attemptLogin()">Login</button>
 
-        <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-            Don't have an account? <a href="register.html" style="color: #0056b3; text-decoration: none; font-weight: bold;">Register here</a>
-        </p>
-    </div>
+<h2>Login</h2>
 
-    <script src="script.js"></script>
+<input type="text" id="username" placeholder="Username"><br>
+<input type="password" id="password" placeholder="Password"><br>
+
+<button onclick="attemptLogin()">Login</button>
+
+<p id="error-msg" style="color:red; display:none;">Invalid login</p>
+
+<p>Don't have an account? <a href="register.html">Register</a></p>
+
+<script src="script.js"></script>
 </body>
 </html>
