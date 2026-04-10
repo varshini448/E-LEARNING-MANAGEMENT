@@ -1,54 +1,35 @@
-<div class="app">
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <h2 class="logo">LMS</h2>
-    <ul>
-      <li class="active">🏠 Dashboard</li>
-      <li>📚 Courses</li>
-      <li>👤 Users</li>
-      <li>📊 Reports</li>
-      <li>⚙ Settings</li>
-    </ul>
-  </aside>
+<body onload="loadCourses()">
 
-  <!-- Main -->
-  <main class="main">
+  <div class="app">
+    <aside class="sidebar">
+      <h2 class="logo">EduPortal</h2>
+      <ul>
+        <li class="active">🏠 Dashboard</li>
+        <li>📚 Courses</li>
+        <li>👤 Users</li>
+        <li>📊 Reports</li>
+        <li onclick="logout()" style="cursor:pointer; color: #ff7675;">🚪 Logout</li>
+      </ul>
+    </aside>
 
-    <!-- Topbar -->
-    <div class="topbar">
-      <input type="text" placeholder="Search..." />
-      <div class="profile">👤</div>
-    </div>
-
-    <!-- Cards -->
-    <div class="cards">
-      <div class="card">
-        <h3>Users</h3>
-        <p>1,245</p>
+    <main class="main">
+      <div class="topbar" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        <input type="text" placeholder="Search courses..." style="width: 300px; margin-bottom: 0;" />
+        <div class="profile-info">
+            <span style="margin-right: 15px;">Welcome, <b id="user-name">User</b></span>
+            <button onclick="logout()" style="width: auto; background: #d9534f; padding: 5px 15px; font-size: 0.8rem;">Logout</button>
+        </div>
       </div>
-      <div class="card">
-        <h3>Courses</h3>
-        <p>32</p>
-      </div>
-      <div class="card">
-        <h3>Revenue</h3>
-        <p>$12,450</p>
-      </div>
-    </div>
 
-    <!-- Chart + Activity -->
-    <div class="grid">
-      <div class="chart">📈 Chart Area</div>
-      <div class="activity">
-        <h3>Recent Activity</h3>
-        <ul>
-          <li>New user registered</li>
-          <li>Course added</li>
-          <li>Payment received</li>
-        </ul>
+      <div class="dashboard-container" style="padding: 30px;">
+        <h2 style="text-align: left;">Browse Available Courses</h2>
+        
+        <div id="course-container" class="course-grid">
+            </div>
       </div>
-    </div>
+    </main>
+  </div>
 
-  </main>
-</div>
+  <script src="script.js"></script>
+</body>
