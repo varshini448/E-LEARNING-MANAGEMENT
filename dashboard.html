@@ -1,35 +1,53 @@
+<body onload="checkAuth(); loadDashboard();">
 
-<body onload="loadCourses()">
+<div class="app">
 
-  <div class="app">
-    <aside class="sidebar">
-      <h2 class="logo">EduPortal</h2>
-      <ul>
-        <li class="active">🏠 Dashboard</li>
-        <li>📚 Courses</li>
-        <li>👤 Users</li>
-        <li>📊 Reports</li>
-        <li onclick="logout()" style="cursor:pointer; color: #ff7675;">🚪 Logout</li>
-      </ul>
-    </aside>
-
-    <main class="main">
-      <div class="topbar" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-        <input type="text" placeholder="Search courses..." style="width: 300px; margin-bottom: 0;" />
-        <div class="profile-info">
-            <span style="margin-right: 15px;">Welcome, <b id="user-name">User</b></span>
-            <button onclick="logout()" style="width: auto; background: #d9534f; padding: 5px 15px; font-size: 0.8rem;">Logout</button>
-        </div>
-      </div>
-
-      <div class="dashboard-container" style="padding: 30px;">
-        <h2 style="text-align: left;">Browse Available Courses</h2>
-        
-        <div id="course-container" class="course-grid">
-            </div>
-      </div>
-    </main>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>LMS</h2>
+    <ul>
+      <li class="active">🏠 Dashboard</li>
+      <li>📚 Courses</li>
+      <li onclick="logout()">🚪 Logout</li>
+    </ul>
   </div>
 
-  <script src="script.js"></script>
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <h2>Welcome, <span id="user-name"></span></h2>
+      <input type="text" placeholder="Search..." />
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Total Courses</h3>
+        <p>3</p>
+      </div>
+      <div class="stat-card">
+        <h3>Enrolled</h3>
+        <p id="enroll-count">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Progress</h3>
+        <p>Active</p>
+      </div>
+    </div>
+
+    <!-- COURSES -->
+    <h2>Available Courses</h2>
+    <div id="course-container" class="course-grid"></div>
+
+    <!-- ENROLLED -->
+    <h2>Your Courses</h2>
+    <div id="enrolled-container" class="course-grid"></div>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
