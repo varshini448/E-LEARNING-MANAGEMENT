@@ -1,0 +1,13 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: #f4f7f6; display: flex; align-items: center; justify-content: center; height: 100vh; }
+.card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 350px; }
+h2 { margin-bottom: 1rem; color: #333; text-align: center; }
+input { width: 100%; padding: 10px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px; }
+button { width: 100%; padding: 10px; background: #0056b3; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;}
+button:hover { background: #004494; }
+.error { color: red; font-size: 0.9rem; text-align: center; display: none; }
+
+/* Dashboard specific */
+.dashboard-body { display: block; padding: 2rem; }
+.course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;}
+.course-card { background: white; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
