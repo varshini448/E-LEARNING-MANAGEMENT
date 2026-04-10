@@ -36,23 +36,41 @@
         <p>Active</p>
       </div>
     </div>
+<section class="course-section">
+      <h2>Available Courses</h2>
+      <div id="course-container" class="course-grid">
+          </div>
+    </section>
 
-    <!-- COURSES -->
-    <body onload="loadCourses()">
-<h2>Welcome, <span id="user-name"></span></h2>
+    <section class="enrolled-section">
+      <h2>Your Learning Progress</h2>
+      <div id="enrolled-container" class="course-grid">
+          </div>
+    </section>
 
-<div id="course-container"></div>
-
-<script src="script.js"></script>
-
-</body>
-    <!-- ENROLLED -->
-    <h2>Your Courses</h2>
-    <div id="enrolled-container" class="course-grid"></div>
-
-  </div>
-
+  </div> </div> <div id="certificate-template" style="display:none; position: absolute; left: -9999px;">
+    <div style="width: 800px; height: 600px; padding: 50px; border: 20px solid #2c3e50; background: white; text-align: center; font-family: 'Georgia', serif; position: relative;">
+        <div style="border: 5px solid #d4af37; height: 100%; padding: 40px;">
+            <h1 style="font-size: 50px; color: #2c3e50; margin-bottom: 0;">CERTIFICATE</h1>
+            <p style="letter-spacing: 5px; color: #d4af37;">OF COMPLETION</p>
+            <br>
+            <p style="font-size: 20px;">This is to certify that</p>
+            <h2 id="cert-user-name" style="font-size: 40px; border-bottom: 2px solid #333; display: inline-block; min-width: 300px;"></h2>
+            <p style="font-size: 20px;">has successfully completed the course</p>
+            <h3 id="cert-course-name" style="font-size: 30px; color: #2980b9;"></h3>
+            <div style="margin-top: 50px; display: flex; justify-content: space-around;">
+                <div>
+                    <p style="border-top: 1px solid #333; width: 150px;">Date</p>
+                    <span id="cert-date"></span>
+                </div>
+                <div>
+                    <p style="border-top: 1px solid #333; width: 150px;">Instructor</p>
+                    <span>Anna University LMS</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="script.js"></script>
-</body>
+   
