@@ -1,6 +1,4 @@
 // ================= HELPERS =================
-
-// Simple hash (NOT secure for real apps, but better than plain text)
 function hashPassword(password) {
     return btoa(password);
 }
@@ -23,8 +21,6 @@ function attemptRegister() {
     const msg = document.getElementById("reg-msg");
 
     if (!user || !pass) {
-        msg.style.display = "block";
-        msg.style.color = "red";
         msg.innerText = "Fill all fields!";
         return;
     }
@@ -32,9 +28,7 @@ function attemptRegister() {
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
     if (users.some(u => u.username === user)) {
-        msg.style.display = "block";
-        msg.style.color = "red";
-        msg.innerText = "Username already exists!";
+        msg.innerText = "Username exists!";
         return;
     }
 
@@ -48,13 +42,8 @@ function attemptRegister() {
 
     localStorage.setItem("users", JSON.stringify(users));
 
-    msg.style.display = "block";
-    msg.style.color = "green";
-    msg.innerText = "Registered! Redirecting...";
-
-    setTimeout(() => {
-        window.location.href = "index.html";
-    }, 1500);
+    msg.innerText = "Registered!";
+    setTimeout(() => window.location.href = "index.html", 1000);
 }
 
 // ================= LOGIN =================
@@ -71,14 +60,13 @@ function attemptLogin() {
     if (foundUser) {
         sessionStorage.setItem("loggedIn", "true");
         sessionStorage.setItem("currentUser", user);
-
         window.location.href = "dashboard.html";
     } else {
-        document.getElementById("error-msg").style.display = "block";
+        document.getElementById("error-msg").innerText = "Invalid login!";
     }
 }
 
-// ================= AUTH CHECK =================
+// ================= AUTH =================
 function checkAuth() {
     if (sessionStorage.getItem("loggedIn") !== "true") {
         window.location.href = "index.html";
@@ -87,7 +75,7 @@ function checkAuth() {
 
 // ================= LOGOUT =================
 function logout() {
-    sessionStorage.clear();  // ✅ FIXED (don’t delete users)
+    sessionStorage.clear();
     window.location.href = "index.html";
 }
 
@@ -102,21 +90,35 @@ const courses = [
 function getCurrentUserData() {
     const username = sessionStorage.getItem("currentUser");
     let users = JSON.parse(localStorage.getItem("users")) || [];
-    return users.find(u => u.username === username);
+
+    const user = users.find(u => u.username === username);
+
+    // 🔥 CRITICAL FIX
+    if (!user) {
+        showToast("User not found. Please login again", "red");
+        logout();
+        return null;
+    }
+
+    return user;
 }
 
 function updateUserData(updatedUser) {
     let users = JSON.parse(localStorage.getItem("users")) || [];
+
     users = users.map(u =>
         u.username === updatedUser.username ? updatedUser : u
     );
+
     localStorage.setItem("users", JSON.stringify(users));
 }
 
 // ================= DASHBOARD =================
 function loadDashboard() {
-    const user = sessionStorage.getItem("currentUser");
-    document.getElementById("user-name").innerText = user;
+    const user = getCurrentUserData();
+    if (!user) return;
+
+    document.getElementById("user-name").innerText = user.username;
 
     loadCourses();
     loadEnrolledCourses();
@@ -125,7 +127,10 @@ function loadDashboard() {
 // ================= LOAD COURSES =================
 function loadCourses() {
     const user = getCurrentUserData();
+    if (!user) return;
+
     const container = document.getElementById("course-container");
+    if (!container) return; // DOM safety
 
     container.innerHTML = "";
 
@@ -146,15 +151,16 @@ function loadCourses() {
 // ================= ENROLL =================
 function enrollCourse(courseId) {
     let user = getCurrentUserData();
+    if (!user) return;
 
     if (!user.enrolled.includes(courseId)) {
         user.enrolled.push(courseId);
         user.progress[courseId] = 0;
 
         updateUserData(user);
-        showToast("Enrolled Successfully!");
+        showToast("Enrolled!");
     } else {
-        showToast("Already Enrolled", "orange");
+        showToast("Already enrolled", "orange");
     }
 
     loadCourses();
@@ -164,31 +170,34 @@ function enrollCourse(courseId) {
 // ================= PROGRESS =================
 function updateProgress(courseId) {
     let user = getCurrentUserData();
+    if (!user) return;
 
     if (user.progress[courseId] < 100) {
         user.progress[courseId] += 10;
         updateUserData(user);
-        showToast("Progress Updated!");
     }
 
     loadEnrolledCourses();
 }
 
-// ================= ENROLLED COURSES =================
+// ================= ENROLLED =================
 function loadEnrolledCourses() {
     let user = getCurrentUserData();
+    if (!user) return;
+
     const container = document.getElementById("enrolled-container");
+    if (!container) return;
 
     container.innerHTML = "";
 
     if (user.enrolled.length === 0) {
-        container.innerHTML = "<p>No courses enrolled</p>";
+        container.innerHTML = "<p>No courses</p>";
         return;
     }
 
     user.enrolled.forEach(id => {
         let course = courses.find(c => c.id === id);
-        let progress = user.progress[id];
+        let progress = user.progress[id] || 0;
 
         container.innerHTML += `
         <div class="course-card">
