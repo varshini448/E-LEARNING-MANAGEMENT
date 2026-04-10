@@ -64,9 +64,11 @@ function checkAuth() {
 }
 
 // ================= LOGOUT =================
+// --- LOGOUT LOGIC ---
 function logout() {
-    sessionStorage.clear();
-    window.location.href = "index.html";
+    localStorage.clear();    // This removes the registered users
+    sessionStorage.clear();   // This removes the "loggedIn" status
+    window.location.href = "index.html"; // Sends them back to login
 }
 
 // ================= COURSES =================
