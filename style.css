@@ -1,93 +1,102 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+/* Professional E-Learning Theme */
+:root {
+    --primary-color: #0056b3;
+    --secondary-color: #f4f7f6;
+    --text-color: #333;
+    --white: #ffffff;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 body {
-  background: #0f172a;
-  color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Layout */
-.app {
-  display: flex;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 220px;
-  height: 100vh;
-  background: #020617;
-  padding: 20px;
-}
-
-.logo {
-  margin-bottom: 30px;
-}
-
-.sidebar ul li {
-  list-style: none;
-  padding: 12px;
-  margin: 10px 0;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.3s;
-}
-
-.sidebar ul li:hover,
-.sidebar ul .active {
-  background: #1e293b;
-}
-
-/* Main */
-.main {
-  flex: 1;
-  padding: 20px;
-}
-
-/* Topbar */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.topbar input {
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
-}
-
-/* Cards */
-.cards {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
+/* Main Container Card */
 .card {
-  flex: 1;
-  padding: 20px;
-  background: #1e293b;
-  border-radius: 12px;
-  transition: 0.3s;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-weight: 600;
 }
 
-/* Grid */
-.grid {
-  display: flex;
-  gap: 20px;
+/* Inputs */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+    font-size: 1rem;
 }
 
-.chart, .activity {
-  flex: 1;
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.2);
 }
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+/* Dashboard Course Grid */
+.dashboard-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    align-items: flex-start;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.course-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-top: 4px solid var(--primary-color);
+    transition: transform 0.2s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Utility */
+.error { color: #d9534f; font-size: 0.9rem; margin-bottom: 10px; }
+.success { color: #5cb85c; font-size: 0.9rem; margin-bottom: 10px; }
