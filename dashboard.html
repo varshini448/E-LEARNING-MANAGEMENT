@@ -1,42 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<div class="app">
 
-<body onload="checkAuth(); loadDashboard();">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">LMS</h2>
+    <ul>
+      <li class="active">🏠 Dashboard</li>
+      <li>📚 Courses</li>
+      <li>👤 Users</li>
+      <li>📊 Reports</li>
+      <li>⚙ Settings</li>
+    </ul>
+  </aside>
 
-<div class="container">
+  <!-- Main -->
+  <main class="main">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h2>LMS</h2>
-        <p>Dashboard</p>
-        <p>Courses</p>
-        <p>Profile</p>
+    <!-- Topbar -->
+    <div class="topbar">
+      <input type="text" placeholder="Search..." />
+      <div class="profile">👤</div>
     </div>
 
-    <!-- MAIN AREA -->
-    <div class="main">
-
-        <!-- TOP BAR -->
-        <div class="topbar">
-            <span>Welcome, <b id="user-name"></b></span>
-            <button onclick="logout()">Logout</button>
-        </div>
-
-        <!-- COURSES -->
-        <h3>All Courses</h3>
-        <div id="course-container" class="grid"></div>
-
-        <h3>Your Courses</h3>
-        <div id="enrolled-container" class="grid"></div>
-
+    <!-- Cards -->
+    <div class="cards">
+      <div class="card">
+        <h3>Users</h3>
+        <p>1,245</p>
+      </div>
+      <div class="card">
+        <h3>Courses</h3>
+        <p>32</p>
+      </div>
+      <div class="card">
+        <h3>Revenue</h3>
+        <p>$12,450</p>
+      </div>
     </div>
 
+    <!-- Chart + Activity -->
+    <div class="grid">
+      <div class="chart">📈 Chart Area</div>
+      <div class="activity">
+        <h3>Recent Activity</h3>
+        <ul>
+          <li>New user registered</li>
+          <li>Course added</li>
+          <li>Payment received</li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
 </div>
-
-<script src="script.js"></script>
-</body>
-</html>
