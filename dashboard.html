@@ -4,22 +4,35 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="checkAuth(); loadCourses();"> <div class="card" style="max-width: 800px; margin: 20px auto;">
-        <h2>Welcome, <span id="user-name">User</span></h2>
-        
-        <button onclick="logout()" style="background-color: #dc3545; float: right;">Logout</button>
-        
-        <div style="clear: both;"></div>
 
+<body onload="checkAuth(); loadDashboard();">
+
+<!-- TOP BAR -->
+<div class="navbar">
+    <h2>LMS Dashboard</h2>
+    <div>
+        <span>Welcome, <b id="user-name"></b></span>
+        <button onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- COURSES -->
+    <div class="section">
         <h3>All Courses</h3>
-        <div id="course-container" class="course-grid">
-            </div>
-
-        <h3>Your Enrolled Courses</h3>
-        <div id="enrolled-container">
-            </div>
+        <div id="course-container" class="grid"></div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ENROLLED -->
+    <div class="section">
+        <h3>Your Courses</h3>
+        <div id="enrolled-container" class="grid"></div>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
