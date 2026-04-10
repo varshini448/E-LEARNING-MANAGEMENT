@@ -2,29 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LMS Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - E-Learning</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="card">
-        <h2>Create an Account</h2>
-        <p id="reg-msg" class="error" style="color: green;"></p>
+        <h2>Create Account</h2>
+        <p id="reg-msg" style="display: none; margin-bottom: 10px;"></p>
+
+        <input type="text" id="reg-username" placeholder="Choose Username">
+        <input type="password" id="reg-password" placeholder="Choose Password">
         
-        <input type="text" id="reg-username" placeholder="Choose a Username">
-        <input type="password" id="reg-password" placeholder="Create a Password">
-        
-        <select id="reg-role" style="width: 100%; padding: 10px; margin-bottom: 1rem; border-radius: 5px; border: 1px solid #ccc;">
-            <option value="Student">Student</option>
-            <option value="Instructor">Instructor</option>
+        <label for="reg-role" style="display: block; margin-bottom: 5px; font-size: 0.8rem;">Select Role:</label>
+        <select id="reg-role" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="student">Student</option>
+            <option value="instructor">Instructor</option>
         </select>
-        
+
         <button onclick="attemptRegister()">Register</button>
-        
+
         <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-            Already have an account? <a href="index.html" style="color: #0056b3;">Login here</a>
+            Already have an account? <a href="index.html" style="color: #0056b3; text-decoration: none;">Login here</a>
         </p>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
