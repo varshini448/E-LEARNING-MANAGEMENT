@@ -1,9 +1,25 @@
+// ================= HELPERS =================
+
+// Simple hash (NOT secure for real apps, but better than plain text)
+function hashPassword(password) {
+    return btoa(password);
+}
+
+function showToast(msg, color = "green") {
+    let toast = document.createElement("div");
+    toast.innerText = msg;
+    toast.className = "toast";
+    toast.style.background = color;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.remove(), 3000);
+}
+
 // ================= REGISTER =================
 function attemptRegister() {
     const user = document.getElementById("reg-username").value.trim();
     const pass = document.getElementById("reg-password").value.trim();
     const role = document.getElementById("reg-role").value;
-
     const msg = document.getElementById("reg-msg");
 
     if (!user || !pass) {
@@ -22,7 +38,13 @@ function attemptRegister() {
         return;
     }
 
-    users.push({ username: user, password: pass, role: role });
+    users.push({
+        username: user,
+        password: hashPassword(pass),
+        role: role,
+        enrolled: [],
+        progress: {}
+    });
 
     localStorage.setItem("users", JSON.stringify(users));
 
@@ -43,7 +65,7 @@ function attemptLogin() {
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
     const foundUser = users.find(
-        u => u.username === user && u.password === pass
+        u => u.username === user && u.password === hashPassword(pass)
     );
 
     if (foundUser) {
@@ -64,14 +86,33 @@ function checkAuth() {
 }
 
 // ================= LOGOUT =================
-// --- LOGOUT LOGIC ---
 function logout() {
-    localStorage.clear();    // This removes the registered users
-    sessionStorage.clear();   // This removes the "loggedIn" status
-    window.location.href = "index.html"; // Sends them back to login
+    sessionStorage.clear();  // ✅ FIXED (don’t delete users)
+    window.location.href = "index.html";
 }
 
 // ================= COURSES =================
+const courses = [
+    { title: "Java Programming", id: "CS101", desc: "Learn Java basics" },
+    { title: "Web Development", id: "WD202", desc: "HTML, CSS, JS" },
+    { title: "Data Structures", id: "DS303", desc: "Stacks, Queues, Trees" }
+];
+
+// ================= USER DATA =================
+function getCurrentUserData() {
+    const username = sessionStorage.getItem("currentUser");
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    return users.find(u => u.username === username);
+}
+
+function updateUserData(updatedUser) {
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    users = users.map(u =>
+        u.username === updatedUser.username ? updatedUser : u
+    );
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
 // ================= DASHBOARD =================
 function loadDashboard() {
     const user = sessionStorage.getItem("currentUser");
@@ -81,22 +122,15 @@ function loadDashboard() {
     loadEnrolledCourses();
 }
 
-// COURSE LIST
-const courses = [
-    { title: "Java Programming", id: "CS101", desc: "Learn Java basics" },
-    { title: "Web Development", id: "WD202", desc: "HTML, CSS, JS" },
-    { title: "Data Structures", id: "DS303", desc: "Stacks, Queues, Trees" }
-];
-
-// LOAD ALL COURSES
+// ================= LOAD COURSES =================
 function loadCourses() {
-    let enrolled = JSON.parse(localStorage.getItem("enrolled")) || [];
-
+    const user = getCurrentUserData();
     const container = document.getElementById("course-container");
+
     container.innerHTML = "";
 
     courses.forEach(c => {
-        let isEnrolled = enrolled.includes(c.id);
+        let isEnrolled = user.enrolled.includes(c.id);
 
         container.innerHTML += `
         <div class="course-card">
@@ -109,43 +143,58 @@ function loadCourses() {
     });
 }
 
-// ENROLL FUNCTION
+// ================= ENROLL =================
 function enrollCourse(courseId) {
-    let enrolled = JSON.parse(localStorage.getItem("enrolled")) || [];
+    let user = getCurrentUserData();
 
-    if (!enrolled.includes(courseId)) {
-        enrolled.push(courseId);
-        localStorage.setItem("enrolled", JSON.stringify(enrolled));
-        alert("Enrolled Successfully!");
+    if (!user.enrolled.includes(courseId)) {
+        user.enrolled.push(courseId);
+        user.progress[courseId] = 0;
+
+        updateUserData(user);
+        showToast("Enrolled Successfully!");
     } else {
-        alert("Already Enrolled");
+        showToast("Already Enrolled", "orange");
     }
 
     loadCourses();
     loadEnrolledCourses();
 }
 
-// SHOW ENROLLED COURSES
-function loadEnrolledCourses() {
-    let enrolled = JSON.parse(localStorage.getItem("enrolled")) || [];
+// ================= PROGRESS =================
+function updateProgress(courseId) {
+    let user = getCurrentUserData();
 
+    if (user.progress[courseId] < 100) {
+        user.progress[courseId] += 10;
+        updateUserData(user);
+        showToast("Progress Updated!");
+    }
+
+    loadEnrolledCourses();
+}
+
+// ================= ENROLLED COURSES =================
+function loadEnrolledCourses() {
+    let user = getCurrentUserData();
     const container = document.getElementById("enrolled-container");
+
     container.innerHTML = "";
 
-    if (enrolled.length === 0) {
+    if (user.enrolled.length === 0) {
         container.innerHTML = "<p>No courses enrolled</p>";
         return;
     }
 
-    enrolled.forEach(id => {
+    user.enrolled.forEach(id => {
         let course = courses.find(c => c.id === id);
-
-        let progress = Math.floor(Math.random() * 100);
+        let progress = user.progress[id];
 
         container.innerHTML += `
         <div class="course-card">
             <h3>${course.title}</h3>
             <p>Progress: ${progress}%</p>
+            <button onclick="updateProgress('${id}')">+ Progress</button>
         </div>`;
     });
 }
