@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="card">
+   <div class="card">
         <h2>E-Learning Login</h2>
-        <p id="error-msg" class="error">Invalid username or password</p>
+        <p id="error-msg" class="error" style="display: none; color: red;">Invalid username or password</p>
         
         <input type="text" id="username" placeholder="Username (Try: student1)">
         <input type="password" id="password" placeholder="Password (Try: password123)">
         
         <button onclick="attemptLogin()">Login</button>
+
         <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-            Don't have an account? <a href="register.html" style="color: #0056b3;">Register here</a>
+            Don't have an account? <a href="register.html" style="color: #0056b3; text-decoration: none; font-weight: bold;">Register here</a>
         </p>
     </div>
 
