@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <h2>Create an Account</h2>
+        <p id="reg-msg" class="error" style="color: green;"></p>
+        
+        <input type="text" id="reg-username" placeholder="Choose a Username">
+        <input type="password" id="reg-password" placeholder="Create a Password">
+        
+        <select id="reg-role" style="width: 100%; padding: 10px; margin-bottom: 1rem; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="Student">Student</option>
+            <option value="Instructor">Instructor</option>
+        </select>
+        
+        <button onclick="attemptRegister()">Register</button>
+        
+        <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+            Already have an account? <a href="index.html" style="color: #0056b3;">Login here</a>
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
