@@ -60,29 +60,55 @@ function checkAuth() {
         window.location.href = "index.html";
     }
 }
-
 function loadCourses() {
     checkAuth();
+
     const nameSpan = document.getElementById("user-name");
-    if(nameSpan) nameSpan.innerText = sessionStorage.getItem("currentUser") || "Student";
+    if (nameSpan) {
+        nameSpan.innerText = sessionStorage.getItem("currentUser") || "Student";
+    }
 
     const courses = [
-        { title: "Java Programming", id: "CS101", desc: "Basic to Advanced Java." },
-        { title: "Web Development", id: "WD202", desc: "HTML, CSS, and JS basics." }
+        { id: "CS101", title: "Java Programming", desc: "Basic to Advanced Java." },
+        { id: "WD202", title: "Web Development", desc: "HTML, CSS, JS basics." }
     ];
 
     let container = document.getElementById("course-container");
-    if(container) {
-        container.innerHTML = courses.map(c => `
-            <div class="course-card" style="border:1px solid #ddd; padding:15px; margin:10px; border-radius:10px;">
-                <h3>${c.title}</h3>
-                <p><strong>ID:</strong> ${c.id}</p>
-                <p>${c.desc}</p>
-                <button onclick="alert('Enrolled!')">Enroll</button>
+    container.innerHTML = "";
+
+    courses.forEach(course => {
+        let progress = localStorage.getItem("progress_" + course.id) || 0;
+
+        container.innerHTML += `
+        <div class="course-card">
+            <h3>${course.title}</h3>
+            <p class="course-id">${course.id}</p>
+            <p>${course.desc}</p>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:${progress}%"></div>
+                </div>
+                <span>${progress}%</span>
             </div>
-        `).join('');
-    }
+
+            <button onclick="updateProgress('${course.id}')">+ Progress</button>
+        </div>
+        `;
+    });
 }
+
+function updateProgress(courseId) {
+    let current = localStorage.getItem("progress_" + courseId) || 0;
+    current = parseInt(current) + 10;
+
+    if (current > 100) current = 100;
+
+    localStorage.setItem("progress_" + courseId, current);
+
+    loadCourses(); // refresh UI
+}
+
 
 function logout() {
     sessionStorage.clear(); // Ends the session
