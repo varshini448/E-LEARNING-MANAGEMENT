@@ -1,3 +1,35 @@
+// --- REGISTRATION LOGIC ---
+function attemptRegister() {
+    let user = document.getElementById("reg-username").value;
+    let pass = document.getElementById("reg-password").value;
+    let role = document.getElementById("reg-role").value;
+
+    if(user === "" || pass === "") {
+        alert("Please fill in all fields");
+        return;
+    }
+
+    // Send data to Java Backend
+    fetch(`/api/register?username=${user}&password=${pass}&role=${role}`, {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        let msgElement = document.getElementById("reg-msg");
+        msgElement.style.display = "block";
+        
+        if (data === "SUCCESS") {
+            msgElement.style.color = "green";
+            msgElement.innerText = "Registration Successful! Redirecting to login...";
+            setTimeout(() => {
+                window.location.href = "index.html"; // Go to login after 2 seconds
+            }, 2000);
+        } else {
+            msgElement.style.color = "red";
+            msgElement.innerText = "Username already exists!";
+        }
+    });
+}
 // --- LOGIN LOGIC ---
 function attemptLogin() {
     let user = document.getElementById("username").value;
