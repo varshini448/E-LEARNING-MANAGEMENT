@@ -4,13 +4,17 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="checkAuth(); loadCourses();">
+<body onload="checkAuth(); loadDashboard();">
 
-<h2>Dashboard</h2>
+<h2>Welcome, <span id="user-name"></span></h2>
 
 <button onclick="logout()">Logout</button>
 
+<h3>All Courses</h3>
 <div id="course-container"></div>
+
+<h3>Your Enrolled Courses</h3>
+<div id="enrolled-container"></div>
 
 <script src="script.js"></script>
 </body>
