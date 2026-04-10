@@ -1,4 +1,4 @@
-// --- REGISTRATION LOGIC ---
+// --- REGISTRATION LOGIC (Local Storage Version) ---
 function attemptRegister() {
     let user = document.getElementById("reg-username").value;
     let pass = document.getElementById("reg-password").value;
@@ -9,47 +9,49 @@ function attemptRegister() {
         return;
     }
 
-    // Send data to Java Backend
-    fetch(`/api/register?username=${user}&password=${pass}&role=${role}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
+    // Get existing users or start an empty list
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Check if user already exists
+    if (users.find(u => u.username === user)) {
         let msgElement = document.getElementById("reg-msg");
         msgElement.style.display = "block";
-        
-        if (data === "SUCCESS") {
-            msgElement.style.color = "green";
-            msgElement.innerText = "Registration Successful! Redirecting to login...";
-            setTimeout(() => {
-                window.location.href = "index.html"; // Go to login after 2 seconds
-            }, 2000);
-        } else {
-            msgElement.style.color = "red";
-            msgElement.innerText = "Username already exists!";
-        }
-    });
+        msgElement.style.color = "red";
+        msgElement.innerText = "Username already exists!";
+        return;
+    }
+
+    // Save new user
+    users.push({ username: user, password: pass, role: role });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    let msgElement = document.getElementById("reg-msg");
+    msgElement.style.display = "block";
+    msgElement.style.color = "green";
+    msgElement.innerText = "Registration Successful! Redirecting to login...";
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 2000);
 }
-// --- LOGIN LOGIC ---
+
+// --- LOGIN LOGIC (Local Storage Version) ---
 function attemptLogin() {
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
-    // Send data to Java Backend using POST
-    fetch(`/api/login?username=${user}&password=${pass}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data.startsWith("SUCCESS")) {
-            // Save login state in browser session
-            sessionStorage.setItem("loggedIn", "true");
-            window.location.href = "dashboard.html"; // Move to dashboard
-        } else {
-            // Show error in HTML
-            document.getElementById("error-msg").style.display = "block";
-        }
-    });
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    
+    // Check local storage for the user
+    let foundUser = users.find(u => u.username === user && u.password === pass);
+
+    // Also allow the default hardcoded user
+    if (foundUser || (user === "student1" && pass === "password123")) {
+        sessionStorage.setItem("loggedIn", "true");
+        window.location.href = "dashboard.html";
+    } else {
+        document.getElementById("error-msg").style.display = "block";
+    }
 }
 
 // --- LOGOUT LOGIC ---
@@ -58,33 +60,29 @@ function logout() {
     window.location.href = "index.html";
 }
 
-// --- FETCH COURSES FROM JAVA ---
+// --- FETCH COURSES (Static Version) ---
 function loadCourses() {
-    // Check if user is logged in
     if (sessionStorage.getItem("loggedIn") !== "true") {
         window.location.href = "index.html";
         return;
     }
 
-    // Ask Java backend for the course list
-    fetch('/api/courses')
-    .then(response => response.json())
-    .then(courses => {
-        let container = document.getElementById("course-container");
-        container.innerHTML = ""; // Clear loading state
+    // Static list since there is no Java backend running on GitHub
+    const courses = [
+        { title: "Java Programming", courseId: "CS101", description: "Learn the basics of Java." },
+        { title: "Web Development", courseId: "WD202", description: "HTML, CSS, and JS." }
+    ];
 
-        // Loop through the array of courses returned by Java
-        courses.forEach(course => {
-            // Build HTML cards dynamically using JavaScript Template Literals
-            let card = `
-                <div class="course-card">
-                    <h3 style="color:#0056b3;">${course.title}</h3>
-                    <p style="color:gray; font-size:0.9rem; margin-top:5px;">Code: ${course.courseId}</p>
-                    <p style="margin-top:10px;">${course.description}</p>
-                    <button style="margin-top:15px;">Enter Course</button>
-                </div>
-            `;
-            container.innerHTML += card;
-        });
+    let container = document.getElementById("course-container");
+    container.innerHTML = ""; 
+    courses.forEach(course => {
+        let card = `
+            <div class="course-card">
+                <h3 style="color:#0056b3;">${course.title}</h3>
+                <p style="color:gray; font-size:0.9rem;">Code: ${course.courseId}</p>
+                <p>${course.description}</p>
+                <button onclick="alert('Course Entered!')">Enter Course</button>
+            </div>`;
+        container.innerHTML += card;
     });
 }
