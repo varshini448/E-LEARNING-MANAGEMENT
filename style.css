@@ -1,70 +1,87 @@
 /* RESET */
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f4f6f9; /* light clean background */
+    background: #eef2f7;
 }
 
-/* HEADER */
-h2 {
-    background: #2c3e50;
+/* NAVBAR */
+.navbar {
+    background: #1e293b;
     color: white;
-    padding: 15px;
-    margin: 0;
-}
-
-/* USER TEXT */
-#user-name {
-    color: #00b894;
-}
-
-/* BUTTON */
-button {
-    padding: 8px 15px;
-    margin: 10px;
-    border: none;
-    background: #3498db;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background: #2980b9;
-}
-
-/* SECTION TITLES */
-h3 {
-    margin-left: 20px;
-}
-
-/* COURSE CONTAINER */
-#course-container,
-#enrolled-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
 }
 
-/* CARD DESIGN */
+.navbar h2 {
+    margin: 0;
+}
+
+.navbar button {
+    margin-left: 15px;
+    padding: 6px 12px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* MAIN LAYOUT */
+.main {
+    padding: 20px 40px;
+}
+
+/* SECTION */
+.section {
+    margin-bottom: 40px;
+}
+
+/* GRID LAYOUT */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
 .course-card {
     background: white;
     padding: 15px;
-    width: 220px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    text-align: left;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
 }
 
-/* CARD TITLE */
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+/* TEXT */
 .course-card h3 {
-    margin-top: 0;
-    color: #2c3e50;
+    margin: 0 0 10px;
+    color: #1e293b;
 }
 
-/* SMALL TEXT */
 .course-card p {
     font-size: 14px;
     color: #555;
+}
+
+/* BUTTON */
+.course-card button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    background: #3b82f6;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.course-card button:hover {
+    background: #2563eb;
 }
