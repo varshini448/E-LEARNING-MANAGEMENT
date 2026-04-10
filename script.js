@@ -1,88 +1,91 @@
-// --- REGISTRATION LOGIC (Local Storage Version) ---
+// ================= REGISTER =================
 function attemptRegister() {
-    let user = document.getElementById("reg-username").value;
-    let pass = document.getElementById("reg-password").value;
-    let role = document.getElementById("reg-role").value;
+    const user = document.getElementById("reg-username").value.trim();
+    const pass = document.getElementById("reg-password").value.trim();
+    const role = document.getElementById("reg-role").value;
 
-    if(user === "" || pass === "") {
-        alert("Please fill in all fields");
+    const msg = document.getElementById("reg-msg");
+
+    if (!user || !pass) {
+        msg.style.display = "block";
+        msg.style.color = "red";
+        msg.innerText = "Fill all fields!";
         return;
     }
 
-    // Get existing users or start an empty list
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // Check if user already exists
-    if (users.find(u => u.username === user)) {
-        let msgElement = document.getElementById("reg-msg");
-        msgElement.style.display = "block";
-        msgElement.style.color = "red";
-        msgElement.innerText = "Username already exists!";
+    if (users.some(u => u.username === user)) {
+        msg.style.display = "block";
+        msg.style.color = "red";
+        msg.innerText = "Username already exists!";
         return;
     }
 
-    // Save new user
     users.push({ username: user, password: pass, role: role });
+
     localStorage.setItem("users", JSON.stringify(users));
 
-    let msgElement = document.getElementById("reg-msg");
-    msgElement.style.display = "block";
-    msgElement.style.color = "green";
-    msgElement.innerText = "Registration Successful! Redirecting to login...";
+    msg.style.display = "block";
+    msg.style.color = "green";
+    msg.innerText = "Registered! Redirecting...";
 
     setTimeout(() => {
         window.location.href = "index.html";
-    }, 2000);
+    }, 1500);
 }
 
-// --- LOGIN LOGIC (Local Storage Version) ---
+// ================= LOGIN =================
 function attemptLogin() {
-    let user = document.getElementById("username").value;
-    let pass = document.getElementById("password").value;
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
-    
-    // Check local storage for the user
-    let foundUser = users.find(u => u.username === user && u.password === pass);
 
-    // Also allow the default hardcoded user
-    if (foundUser || (user === "student1" && pass === "password123")) {
+    const foundUser = users.find(
+        u => u.username === user && u.password === pass
+    );
+
+    if (foundUser) {
         sessionStorage.setItem("loggedIn", "true");
+        sessionStorage.setItem("currentUser", user);
+
         window.location.href = "dashboard.html";
     } else {
         document.getElementById("error-msg").style.display = "block";
     }
 }
 
-// --- LOGOUT LOGIC ---
+// ================= AUTH CHECK =================
+function checkAuth() {
+    if (sessionStorage.getItem("loggedIn") !== "true") {
+        window.location.href = "index.html";
+    }
+}
+
+// ================= LOGOUT =================
 function logout() {
     sessionStorage.clear();
     window.location.href = "index.html";
 }
 
-// --- FETCH COURSES (Static Version) ---
+// ================= COURSES =================
 function loadCourses() {
-    if (sessionStorage.getItem("loggedIn") !== "true") {
-        window.location.href = "index.html";
-        return;
-    }
-
-    // Static list since there is no Java backend running on GitHub
     const courses = [
-        { title: "Java Programming", courseId: "CS101", description: "Learn the basics of Java." },
-        { title: "Web Development", courseId: "WD202", description: "HTML, CSS, and JS." }
+        { title: "Java Programming", id: "CS101", desc: "Learn Java basics" },
+        { title: "Web Development", id: "WD202", desc: "HTML, CSS, JS" }
     ];
 
-    let container = document.getElementById("course-container");
-    container.innerHTML = ""; 
-    courses.forEach(course => {
-        let card = `
-            <div class="course-card">
-                <h3 style="color:#0056b3;">${course.title}</h3>
-                <p style="color:gray; font-size:0.9rem;">Code: ${course.courseId}</p>
-                <p>${course.description}</p>
-                <button onclick="alert('Course Entered!')">Enter Course</button>
-            </div>`;
-        container.innerHTML += card;
+    const container = document.getElementById("course-container");
+    container.innerHTML = "";
+
+    courses.forEach(c => {
+        container.innerHTML += `
+        <div class="course-card">
+            <h3>${c.title}</h3>
+            <p>Code: ${c.id}</p>
+            <p>${c.desc}</p>
+            <button onclick="alert('Entered')">Enter</button>
+        </div>`;
     });
 }
